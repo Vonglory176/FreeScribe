@@ -1,9 +1,10 @@
 import React from 'react'
 
-const Transcription = () => {
+const Transcription: React.FC<TranscriptionProps> = ({ textElement }) => {
+  // const finalText = output.map(val => val.text)
   return (
     <div>
-      1
+      {textElement || 'No transcription'}
     </div>
   )
 }
