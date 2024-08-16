@@ -55,7 +55,7 @@ const HomePage: React.FC<HomePageProps> = ({setFile, setAudioStream}) => { {/* ,
 
     if (mediaRecorder.current) mediaRecorder.current.onstop = () => {
       const audioBlob = new Blob(audioChunks, {type: mimeType})
-      setAudioStream(audioBlob)
+      setAudioStream(audioBlob as unknown as MediaStream)
       setAudioChunks([])
       setDuration(0)
     }
@@ -71,7 +71,7 @@ const HomePage: React.FC<HomePageProps> = ({setFile, setAudioStream}) => { {/* ,
     }, 1000)
 
     return () => clearInterval(interval)
-  }, [recordingStatus, duration])
+  }) // , [recordingStatus, duration]
 
 
   // File Upload
