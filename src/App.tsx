@@ -6,7 +6,7 @@ import Information from "./components/Information"
 import Transcribing from "./components/Transcribing"
 import { MessageTypes } from "./utils/presets"
 
-// VIDEO --> https://youtu.be/82PXenL4MGg?t=16171
+// VIDEO --> https://youtu.be/82PXenL4MGg?t=18123
 
 function App() {
   const [file, setFile] = useState<File | null>(null)
@@ -26,11 +26,14 @@ function App() {
   const worker = useRef<Worker | null>(null)
 
   useEffect(() => {
+    // console.log(import.meta.url)
     if (!worker.current) {
       worker.current = new Worker(new URL('./utils/whisper.worker.ts', import.meta.url), { type: 'module' })
     }
 
     const onMessageReceived = async (e: MessageEvent) => {
+      // console.log('Message received:', e.data)
+
       switch (e.data.type) {
         case 'DOWNLOADING':
           setDownloading(true)
@@ -45,7 +48,7 @@ function App() {
           // console.log('RESULT')
           break
         case 'INFERENCE DONE':
-          setOutput(e.data.transcription)
+          // setOutput(e.data.transcription)
           setFinished(true)
           console.log('DONE')
           break
@@ -57,9 +60,9 @@ function App() {
     return () => {
       worker.current?.removeEventListener('message', onMessageReceived)
     }
-  }, [])
+  }, [worker])
 
-  const readAudioFrom = async (file: File) => {
+  const readAudioFrom = async (file: any) => { // File | MediaStream
     const samplingRate = 16000
     const audioCTX = new AudioContext({sampleRate: samplingRate})
     const response = await file.arrayBuffer()
@@ -67,16 +70,18 @@ function App() {
     const audio = decoded.getChannelData(0)
     return audio
   }
-
-  const handleFormSubmission = async (e: React.FormEvent<HTMLFormElement>) => {
+  
+  const handleFormSubmission = async () => { {/* e: React.FormEvent<HTMLFormElement> */}
     if (!file && !audioStream) return
 
-    let audio = await readAudioFrom(file? file : audioStream)
+    let audio = await readAudioFrom(file ? file : audioStream)
     const model_name = `openai/whisper-tiny.com`
 
+    // console.log(audio)
+
     if (worker.current) worker.current.postMessage({
-        type: MessageTypes.INFERENCE_REQUEST,
-        audio,
+      type: MessageTypes.INFERENCE_REQUEST,
+      audio,
       model_name,
     })
   }
@@ -88,11 +93,11 @@ function App() {
         <Header />
 
         {
-          output ? <Information />
+          output ? <Information output={output} />
           
           : loading ? <Transcribing downloding={loading} /> 
           
-          : isAudioAvailable ? <FileDisplay file={file} audioStream={audioStream} handleResetAudio={handleResetAudio} />
+          : isAudioAvailable ? <FileDisplay file={file} audioStream={audioStream} handleResetAudio={handleResetAudio} handleFormSubmission={handleFormSubmission} />
 
           : <HomePage setFile={setFile} setAudioStream={setAudioStream} /> // handleResetAudio={handleResetAudio}
         }
