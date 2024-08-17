@@ -35,9 +35,9 @@ async function transcribe(audio: any) {
 
     try {
         pipeline = await MyTranscriptionPipeline.getInstance(load_model_callback as any)
-        console.log('Pipeline instance created:', pipeline)
+        // console.log('Pipeline instance created:', pipeline)
     } catch (err: any) {
-        console.error('Error loading pipeline:', err)
+        // console.error('Error loading pipeline:', err)
         sendLoadingMessage('Failed to load pipeline')
         return
     }
@@ -62,7 +62,7 @@ async function transcribe(audio: any) {
 async function load_model_callback(data: any) {
     const { status } = data
 
-    console.log('load_model_callback', data)
+    // console.log('load_model_callback', data)
 
     if (status === 'progress') {
         const { file, progress, loaded, total } = data
@@ -132,17 +132,17 @@ class GenerationTracker {
         this.chunks.push(data)
         const [text, { chunks }] = this.pipeline.tokenizer._decode_asr(
             this.chunks,
-            {
+            {                
                 time_precision: this.time_precision,
                 return_timestamps: true,
                 force_full_sequence: false
             }
         )
+        console.log(text)
 
         this.processed_chunks = chunks.map((chunk: any, index: any) => {
             return this.processChunk(chunk, index)
         })
-
 
         createResultMessage(
             this.processed_chunks, false, this.getLastChunkTimestamp() || 0
