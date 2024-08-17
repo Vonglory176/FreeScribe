@@ -102,6 +102,10 @@ function App() {
           : <HomePage setFile={setFile} setAudioStream={setAudioStream} /> // handleResetAudio={handleResetAudio}
         }
 
+        <footer className='flex justify-center items-center p-2'>
+          <p>&copy; Skyler 2024</p>
+        </footer>
+
       </section>
     </div>
   )
