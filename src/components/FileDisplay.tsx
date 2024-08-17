@@ -16,13 +16,19 @@ const FileDisplay: React.FC<FileDisplayProps> = ({file, audioStream, handleReset
     }, [audioStream, file])
 
     return (
-        <main className="flex-1 p-4 flex flex-col gap-3 sm:gap-4 text-center justify-center pb-20 w-72 sm:w-96 max-w-full mx-auto">
+        <main className="flex-1 p-4 flex flex-col gap-3 sm:gap-4 text-center justify-center pb-20 w-full max-w-prose mx-auto">
             
             <h1 className='font-semibold text-4xl sm:text-5xl md:text-6xl'>Your <span className='text-blue-400 bold'>File</span></h1>
             
             <div className="flex flex-col text-left my-4">
                 <h3 className='font-semibold'>Name</h3>
                 <p>{file ? file?.name : "Custom Audio"}</p>
+            </div>
+
+            <div className='flex flex-col mb-2'>
+                <audio ref={audioRef} className='w-full' controls>
+                    Your browser does not support the audio element.
+                </audio>
             </div>
 
             <div className="flex items-center justify-between gap-4">
