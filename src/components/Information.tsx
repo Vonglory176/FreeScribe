@@ -77,13 +77,13 @@ const Information: React.FC<InformationProps> = ({ output,  }) => { // finished
     const textElement = tab === 'transcription' ? output.map(val => val.text).join('\n') // output.map(val => val.text) 
     : translation || ''
 
-    useEffect(() => {
-      console.log(translation)
-    }, [translation])
+    // useEffect(() => {
+    //   console.log(translation)
+    // }, [translation])
 
-    useEffect(() => {
-      console.log(toLanguage)
-    }, [toLanguage])
+    // useEffect(() => {
+    //   console.log(toLanguage)
+    // }, [toLanguage])
 
   return (
     <main className="flex-1 p-4 flex flex-col gap-3 sm:gap-4 text-center justify-center pb-20 max-w-prose w-full mx-auto">
