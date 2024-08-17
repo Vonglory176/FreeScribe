@@ -11,8 +11,8 @@ import { MessageTypes } from "./utils/presets"
 function App() {
   const [file, setFile] = useState<File | null>(null)
   const [audioStream, setAudioStream] = useState<MediaStream | null>(null)
-  const [output, setOutput] = useState<string | null>(null)
-  const [downloading, setDownloading] = useState<boolean>(false)
+  const [output, setOutput] = useState<{ text: string }[] | null>(null)
+  // const [downloading, setDownloading] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
   const [finished, setFinished] = useState<boolean>(false)
 
@@ -36,7 +36,7 @@ function App() {
 
       switch (e.data.type) {
         case 'DOWNLOADING':
-          setDownloading(true)
+          // setDownloading(true)
           console.log('DOWNLOADING')
           break
         case 'LOADING':
@@ -93,7 +93,7 @@ function App() {
         <Header />
 
         {
-          output ? <Information output={output} />
+          output ? <Information output={output} finished={finished} />
           
           : loading ? <Transcribing downloding={loading} /> 
           
