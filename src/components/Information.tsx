@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import Transcription from './Transcription'
 import Translation from './Translation'
 
-const Information: React.FC<InformationProps> = ({ output, finished }) => {
-    const [tab, setTab] = useState<'transcription' | 'translation'>('transcription')
+const Information: React.FC<InformationProps> = ({ output,  }) => { // finished
+    const [tab] = useState<'transcription' | 'translation'>('transcription')
     const [translation, setTranslation] = useState<string | null>(null)
     const [translating, setTranslating] = useState<boolean>(false)
     const [toLanguage, setToLanguage] = useState<string>('Select Language')
